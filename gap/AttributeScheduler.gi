@@ -148,3 +148,24 @@ InstallMethod( ComputeProperty,
     return evaluate_recursive( graph, property_name, object, how_to_compute );
     
 end );
+
+##
+InstallMethod( ViewObj,
+               [ IsMethodSelectionGraph ],
+               
+  function( graph )
+    
+    Print( "<Attribute scheduler graph>" );
+    
+end );
+
+##
+InstallMethod( Display,
+               [ IsMethodSelectionGraph ],
+               
+  function( graph )
+    
+    Print( "Attribute scheduler graph" );
+    
+end );
+
