@@ -17,7 +17,15 @@ BindGlobal( "TheFamilyOfAttributeSchedulerGraphs",
 BindGlobal( "TheTypeAttributeSchedulerGraph",
         NewType( TheFamilyOfAttributeSchedulerGraphs,
                 IsAttributeSchedulerGraphRep ) );
-                
+
+##
+InstallMethod( AttributeSchedulerGraph,
+               [ ],
+               
+  function( )
+    return AttributeSchedulerGraph( [ ] );
+end );
+
 ##
 InstallMethod( AttributeSchedulerGraph,
                [ IsList ],
