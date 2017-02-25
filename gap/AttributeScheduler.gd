@@ -1,18 +1,18 @@
 #############################################################################
 ##
-##                                                      MethodSelectionGraph
+##                                                    AttributeSchedulerGraph
 ##
 ##  Copyright 2017,                            Markus Baumeister, RWTH Aachen
 ##                                       Sebastian Gutsche, Siegen University
 ##
 #############################################################################
 
-DeclareGlobalFunction( "evaluate_recursive" );
+DeclareGlobalFunction( "__ATTRIBUTESCHEDULER_evaluate_recursive" );
 
-DeclareCategory( "IsMethodSelectionGraph", IsObject );
+DeclareCategory( "IsAttributeSchedulerGraph", IsObject );
 
-DeclareOperation( "MethodSelectionGraph", [ IsList ] );
+DeclareOperation( "AttributeSchedulerGraph", [ IsList ] );
 
-DeclareOperation( "AddPropertyIncidence", [ IsMethodSelectionGraph, IsString, IsList ] );
+DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList ] );
 
-DeclareOperation( "ComputeProperty", [ IsMethodSelectionGraph, IsFunction, IsObject ] );
+DeclareOperation( "ComputeProperty", [ IsAttributeSchedulerGraph, IsFunction, IsObject ] );

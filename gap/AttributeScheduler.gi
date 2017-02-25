@@ -1,25 +1,25 @@
 #############################################################################
 ##
-##                                                      MethodSelectionGraph
+##                                                    AttributeSchedulerGraph
 ##
 ##  Copyright 2017,                            Markus Baumeister, RWTH Aachen
 ##                                       Sebastian Gutsche, Siegen University
 ##
 #############################################################################
 
-DeclareRepresentation( "IsMethodSelectionGraphRep",
-        IsMethodSelectionGraph and IsAttributeStoringRep,
+DeclareRepresentation( "IsAttributeSchedulerGraphRep",
+        IsAttributeSchedulerGraph and IsAttributeStoringRep,
         [ ] );
 
-BindGlobal( "TheFamilyOfMethodSelectionGraphs",
-        NewFamily( "TheFamilyOfMethodSelectionGraphs" ) );
+BindGlobal( "TheFamilyOfAttributeSchedulerGraphs",
+        NewFamily( "TheFamilyOfAttributeSchedulerGraphs" ) );
 
-BindGlobal( "TheTypeMethodSelectionGraph",
-        NewType( TheFamilyOfMethodSelectionGraphs,
-                IsMethodSelectionGraphRep ) );
+BindGlobal( "TheTypeAttributeSchedulerGraph",
+        NewType( TheFamilyOfAttributeSchedulerGraphs,
+                IsAttributeSchedulerGraphRep ) );
                 
 ##
-InstallMethod( MethodSelectionGraph,
+InstallMethod( AttributeSchedulerGraph,
                [ IsList ],
                
   function( methods )
@@ -31,14 +31,14 @@ InstallMethod( MethodSelectionGraph,
         graph.(i) := [ ];
     od;
     
-    Objectify( TheTypeMethodSelectionGraph, graph );
+    Objectify( TheTypeAttributeSchedulerGraph, graph );
     
     return graph;
     
 end );
 
 InstallMethod( AddPropertyIncidence,
-               [ IsMethodSelectionGraph, IsString, IsList ],
+               [ IsAttributeSchedulerGraph, IsString, IsList ],
                
   function( graph, property_to_compute, property_depends_on )
     local name;
@@ -61,13 +61,13 @@ InstallMethod( AddPropertyIncidence,
 end );
 
 InstallOtherMethod( AddPropertyIncidence,
-                    [ IsMethodSelectionGraph, IsString, IsString ],
+                    [ IsAttributeSchedulerGraph, IsString, IsString ],
                     
   function( graph, property_to_compute, property_depends_on )
     AddPropertyIncidence( graph, property_to_compute, [ property_depends_on ] );
 end );
 
-InstallGlobalFunction( "evaluate_recursive",
+InstallGlobalFunction( __ATTRIBUTESCHEDULER_evaluate_recursive,
                        function( graph, name_property, object, spanning_tree )
     local i, props;
     
@@ -78,7 +78,7 @@ InstallGlobalFunction( "evaluate_recursive",
     props := graph!.( name_property )[ spanning_tree.( name_property ) ];
     
     for i in props do
-        evaluate_recursive( graph, i, object, spanning_tree );
+        __ATTRIBUTESCHEDULER_evaluate_recursive( graph, i, object, spanning_tree );
     od;
     
     return ValueGlobal( name_property )( object );
@@ -86,7 +86,7 @@ InstallGlobalFunction( "evaluate_recursive",
 end );
 
 InstallMethod( ComputeProperty,
-               [ IsMethodSelectionGraph, IsFunction, IsObject ],
+               [ IsAttributeSchedulerGraph, IsFunction, IsObject ],
   function( graph, property, object )
     local all_names, how_to_compute, i, property_name, possibilities, max, j;
     
@@ -145,13 +145,13 @@ InstallMethod( ComputeProperty,
         
     fi;
     
-    return evaluate_recursive( graph, property_name, object, how_to_compute );
+    return __ATTRIBUTESCHEDULER_evaluate_recursive( graph, property_name, object, how_to_compute );
     
 end );
 
 ##
 InstallMethod( ViewObj,
-               [ IsMethodSelectionGraph ],
+               [ IsAttributeSchedulerGraph ],
                
   function( graph )
     
@@ -161,7 +161,7 @@ end );
 
 ##
 InstallMethod( Display,
-               [ IsMethodSelectionGraph ],
+               [ IsAttributeSchedulerGraph ],
                
   function( graph )
     
