@@ -158,11 +158,11 @@ InstallMethod( ComputeProperty,
 end );
 
 InstallMethod( AddAttribute, 
-    [IsAttributeSchedulerGraph, IsString, IsString, IsString],
+    [IsAttributeSchedulerGraph, IsObject, IsObject, IsString],
     function(graph, attr, filter, descr)
-        InstallMethod( ValueGlobal(attr), descr, ValueGlobal(filter),
+        InstallMethod( attr, descr, filter,
             function(obj)
-                return ComputeProperty(graph, ValueGlobal(attr), obj);
+                return ComputeProperty(graph, attr, obj);
             end);
     end
 );

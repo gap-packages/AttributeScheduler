@@ -29,8 +29,11 @@ DeclareOperation( "AttributeSchedulerGraph", [ IsList ] );
 #! Add an attribute to the attribute scheduler graph. This method will
 #! install a method for the attribute that calls the attribute 
 #! scheduler graph.
+#! <Par/>
+#! Careful: Due to a limitation of GAP, attributes and filter can only
+#! be given as general objects
 #! @Arguments graph, attribute, filter, description
-DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsString, IsString, IsString] );
+DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsObject, IsObject, IsString] );
 
 #! @Arguments graph,property,requirements
 #! @Description
