@@ -160,7 +160,7 @@ end );
 InstallMethod( AddAttribute, 
     [IsAttributeSchedulerGraph, IsObject, IsObject, IsString],
     function(graph, attr, filter, descr)
-        InstallMethod( attr, descr, filter,
+        InstallMethod( attr, descr, [filter],
             function(obj)
                 return ComputeProperty(graph, attr, obj);
             end);
