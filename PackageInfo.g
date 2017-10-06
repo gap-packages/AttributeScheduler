@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "AttributeScheduler",
 Subtitle := "Graph and methods to compute attribute with dependencies",
-Version := "2017.02.25",
-Date := "25/02/2017", # dd/mm/yyyy format
+Version := "2017.10.06",
+Date := "06/10/2017", # dd/mm/yyyy format
 
 Persons := [
   rec(
@@ -31,10 +31,10 @@ Persons := [
     FirstNames := "Markus",
     LastName := "Baumeister",
     WWWHome := "TODO",
-    Email := "TODO",
+    Email := "baumeister@momo.math.rwth-aachen.de",
     PostalAddress := "TODO",
-    Place := "TODO",
-    Institution := "TODO",
+    Place := "Aachen",
+    Institution := "RWTH Aachen University",
   ),
 ],
 
