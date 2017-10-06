@@ -157,6 +157,16 @@ InstallMethod( ComputeProperty,
     
 end );
 
+InstallMethod( AddAttribute, 
+    [IsAttributeSchedulerGraph, IsString, IsString, IsString],
+    function(graph, attr, filter, descr)
+        InstallMethod( ValueGlobal(attr), descr, ValueGlobal(filter),
+            function(obj)
+                return ComputeProperty(graph, ValueGlobal(attr), obj);
+            end);
+    end
+);
+
 ##
 InstallMethod( ViewObj,
                [ IsAttributeSchedulerGraph ],
