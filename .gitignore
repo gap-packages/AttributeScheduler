@@ -1,0 +1,38 @@
+# Autodoc-documentation
+doc/
+
+# intermediate compilation stuff
+*.4ct
+*.4tc
+*.aux
+*.bbl
+*.blg
+*.css
+*.dvi
+*.html
+*.idv
+*.idx
+*.ilg
+*.ind
+*.js
+*.lab
+*.lg
+*.log
+*.nav
+*.out
+*.pnr
+*.snm
+*.svg
+*.synctex.gz
+*.tmp
+*.toc
+*.vrb
+*.xref
+
+# changed files
+*~
+*.swp
+*.swo
+
+# compressed files
+*.gz
