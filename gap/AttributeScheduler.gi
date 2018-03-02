@@ -80,7 +80,7 @@ InstallGlobalFunction( __ATTRIBUTESCHEDULER_evaluate_recursive,
     local i, props;
     
     if spanning_tree.( name_property ) = 0 then
-        return ValueGlobal( name_property )( object );
+        return VALUE_GLOBAL( name_property )( object );
     fi;
     
     props := graph!.( name_property )[ spanning_tree.( name_property ) ];
@@ -89,7 +89,7 @@ InstallGlobalFunction( __ATTRIBUTESCHEDULER_evaluate_recursive,
         __ATTRIBUTESCHEDULER_evaluate_recursive( graph, i, object, spanning_tree );
     od;
     
-    return ValueGlobal( name_property )( object );
+    return VALUE_GLOBAL( name_property )( object );
     
 end );
 
@@ -107,7 +107,7 @@ InstallMethod( ComputeProperty,
     od;
     
     for i in [ 1 .. Length( all_names ) ] do
-        if Tester( ValueGlobal( all_names[ i ] ) )( object ) then
+        if Tester( VALUE_GLOBAL( all_names[ i ] ) )( object ) then
             how_to_compute.( all_names[ i ] ) := 0;
         fi;
     od;
