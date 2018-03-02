@@ -5,7 +5,8 @@
 ##  Copyright 2017,                            Markus Baumeister, RWTH Aachen
 ##                                       Sebastian Gutsche, Siegen University
 ##
-##! @Chapter Attrubte scheduler Graph
+##! @Chapter Attribute scheduler Graph
+##! @Section TODO
 ##
 #############################################################################
 
@@ -16,11 +17,11 @@ DeclareCategory( "IsAttributeSchedulerGraph", IsObject );
 #! @BeginGroup
 #! @Description
 #!  Constructor for the attribute scheduler graph.
-#!  Takes an optional argument <A>l</A>, which is a list of
+#!  Takes an optional argument <A>list</A>, which is a list of
 #!  strings and serves as nodes for the graph. Nodes can always be added
 #!  by adding edges via <C>AddPropertyIncidence</C>.
 #! @Returns An attribute scheduling graph
-#! @Arguments [l]
+#! @Arguments [list]
 DeclareOperation( "AttributeSchedulerGraph", [ ] );
 DeclareOperation( "AttributeSchedulerGraph", [ IsList ] );
 #! @EndGroup
@@ -37,7 +38,7 @@ DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsObject, IsObject
 
 #! @Arguments graph,property,requirements
 #! @Description
-#!  Adds an edge to <Agraph</A>. Tells the graph that the property <A>property</A> can
+#!  Adds an edge to <A>graph</A>. Tells the graph that the property <A>property</A> can
 #!  be computed if the properties in <A>requirements</A> are computed. All names
 #!  must be given as string.
 DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList ] );
@@ -45,6 +46,7 @@ DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString,
 
 #! @Arguments graph,attribute,object
 #! @Returns Value for <A>attribute</A>
+#! @Description
 #!  Checks the attribute scheduler graph <A>graph</A> if there is a way to compute
 #!  <A>attribute</A> for <A>object</A>. If so, the value is returned. If not, an error
 #! is raised.
