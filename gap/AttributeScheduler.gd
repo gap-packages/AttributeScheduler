@@ -39,8 +39,9 @@ DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsObject, IsObject
 #! @Arguments graph,property,requirements
 #! @Description
 #!  Adds an edge to <A>graph</A>. Tells the graph that the property <A>property</A> can
-#!  be computed if the properties in <A>requirements</A> are computed. All names
-#!  must be given as string.
+#!  be computed if the properties in <A>requirements</A> are computed.
+#!  Here, <A>requirements</A> can be a list of strings naming required properties, or
+#!  a single string naming a single required property.
 DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList ] );
 
 
