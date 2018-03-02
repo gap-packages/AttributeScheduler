@@ -31,8 +31,8 @@ DeclareOperation( "AttributeSchedulerGraph", [ IsList ] );
 #! install a method for the attribute that calls the attribute 
 #! scheduler graph.
 #! <Par/>
-#! Careful: Due to a limitation of GAP, attributes and filter can only
-#! be given as general objects
+#! Careful: This operation does not check whether <A>attribute</A> is an attribute or <A>filter</A>
+#! is a filter.
 #! @Arguments graph, attribute, filter, description
 DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsObject, IsObject, IsString] );
 
