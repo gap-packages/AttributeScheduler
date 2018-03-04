@@ -96,19 +96,21 @@ end );
 InstallMethod( ComputeProperty,
                [ IsAttributeSchedulerGraph, IsFunction, IsObject ],
   function( graph, property, object )
-    local all_names, how_to_compute, i, property_name, possibilities, max, j;
+    local all_names, how_to_compute, i, property_name, possibilities, max, j,
+        valid, k;
     
     all_names := NamesOfComponents( graph );
     
     how_to_compute := rec();
     
+    # It is slightly faster to keep the following loops separate
     for i in all_names do
         how_to_compute.( i ) := -1;
     od;
-    
-    for i in [ 1 .. Length( all_names ) ] do
-        if Tester( VALUE_GLOBAL( all_names[ i ] ) )( object ) then
-            how_to_compute.( all_names[ i ] ) := 0;
+
+    for i in all_names do
+        if Tester( VALUE_GLOBAL( i ) )( object ) then
+            how_to_compute.( i ) := 0;
         fi;
     od;
     
@@ -130,11 +132,17 @@ InstallMethod( ComputeProperty,
             
             for j in [ 1 .. Length( possibilities ) ] do
                 
-                if ForAll( possibilities[ j ], k -> how_to_compute.( k ) > -1 ) then
-                    
+                valid := true;
+                for k in possibilities[ j ] do
+                    if how_to_compute.( k ) = -1 then
+                        valid := false;
+                        break;
+                    fi;
+                od;
+
+                if valid then
                     how_to_compute.( all_names[ i ] ) := j;
                     break;
-                
                 fi;
                 
             od;
