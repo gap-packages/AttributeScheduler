@@ -36,15 +36,22 @@ DeclareOperation( "AttributeSchedulerGraph", [ IsList ] );
 #! @Arguments graph, attribute, filter, description
 DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsObject, IsObject, IsString] );
 
-#! @Arguments graph,property,requirements
+#! @BeginGroup
 #! @Description
-#!  Adds an edge to <A>graph</A>. Tells the graph that the property <A>property</A> can
-#!  be computed if the properties in <A>requirements</A> are computed.
-#!  Here, <A>requirements</A> can be a list of strings naming required properties, or
-#!  a single string naming a single required property.
+#!  Adds an edge to <A>graph</A>. Tells the graph that the property 
+#!  <A>property</A> can be computed if the properties in <A>requirements</A> 
+#!  are computed and the properties in <A>dependencies</A> are true (the
+#!  dependencies are not computed by the graph).
+#!
+#!  Here, <A>requirements</A> can be a list of strings naming required 
+#!  properties, or a single string naming a single required property. The 
+#!  argument <A>dependencies</A> has to be list of strings.
+#!
+#! @Arguments graph, property, requirements
 DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList ] );
-
+#! @Arguments graph, property, requirements, dependencies
 DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList, IsList ] );
+#! @EndGroup
 
 #! @Arguments graph,attribute,object
 #! @Returns Value for <A>attribute</A>
