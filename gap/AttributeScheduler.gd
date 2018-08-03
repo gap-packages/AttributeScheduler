@@ -44,6 +44,7 @@ DeclareOperation( "AddAttribute", [IsAttributeSchedulerGraph, IsObject, IsObject
 #!  a single string naming a single required property.
 DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList ] );
 
+DeclareOperation( "AddPropertyIncidence", [ IsAttributeSchedulerGraph, IsString, IsList, IsList ] );
 
 #! @Arguments graph,attribute,object
 #! @Returns Value for <A>attribute</A>

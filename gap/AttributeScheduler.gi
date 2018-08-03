@@ -64,15 +64,45 @@ InstallMethod( AddPropertyIncidence,
         graph!.(property_to_compute) := [];
     fi;
     
-    Add( graph!.(property_to_compute), property_depends_on );
+    Add( graph!.(property_to_compute), rec( dependencies := property_depends_on, requirements := [ ] ) );
     
 end );
 
-InstallOtherMethod( AddPropertyIncidence,
+InstallMethod( AddPropertyIncidence,
+               [ IsAttributeSchedulerGraph, IsString, IsList, IsList ],
+               
+  function( graph, property_to_compute, property_depends_on, requirements )
+    local name;
+    
+    # Check whether the elements of property_depends_on are already part
+    # of the graph
+    for name in property_depends_on do
+        if not IsBound( graph!.(name) ) then
+            graph!.(name) := [];
+        fi;
+    od;
+    
+    # Check whether property_to_compute is already part of the graph
+    if not IsBound( graph!.(property_to_compute) ) then
+        graph!.(property_to_compute) := [];
+    fi;
+    
+    Add( graph!.(property_to_compute), rec( dependencies := property_depends_on, requirements := requirements ) );
+    
+end );
+
+InstallMethod( AddPropertyIncidence,
                     [ IsAttributeSchedulerGraph, IsString, IsString ],
                     
   function( graph, property_to_compute, property_depends_on )
     AddPropertyIncidence( graph, property_to_compute, [ property_depends_on ] );
+end );
+
+InstallMethod( AddPropertyIncidence,
+                    [ IsAttributeSchedulerGraph, IsString, IsString, IsList ],
+                    
+  function( graph, property_to_compute, property_depends_on, requirements )
+    AddPropertyIncidence( graph, property_to_compute, [ property_depends_on ], requirements );
 end );
 
 InstallGlobalFunction( __ATTRIBUTESCHEDULER_evaluate_recursive,
@@ -83,7 +113,7 @@ InstallGlobalFunction( __ATTRIBUTESCHEDULER_evaluate_recursive,
         return VALUE_GLOBAL( name_property )( object );
     fi;
     
-    props := graph!.( name_property )[ spanning_tree.( name_property ) ];
+    props := graph!.( name_property )[ spanning_tree.( name_property ) ].dependencies;
     
     for i in props do
         __ATTRIBUTESCHEDULER_evaluate_recursive( graph, i, object, spanning_tree );
@@ -130,7 +160,13 @@ InstallMethod( ComputeProperty,
             
             for j in [ 1 .. Length( possibilities ) ] do
                 
-                if ForAll( possibilities[ j ], k -> how_to_compute.( k ) > -1 ) then
+                if ForAll( possibilities[ j ].dependencies, k -> how_to_compute.( k ) > -1 ) and ForAll( possibilities[ j ].requirements, function( tester )
+                                                                                                                                            local val;
+                                                                                                                                              val := VALUE_GLOBAL( tester );
+                                                                                                                                              return Tester( val )( object )
+                                                                                                                                                and IsBool( val( object ) )
+                                                                                                                                                and val( object );
+                                                                                                                                            end ) then
                     
                     how_to_compute.( all_names[ i ] ) := j;
                     break;
