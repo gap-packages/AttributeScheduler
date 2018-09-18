@@ -126,7 +126,8 @@ end );
 InstallMethod( ComputeProperty,
                [ IsAttributeSchedulerGraph, IsFunction, IsObject ],
   function( graph, property, object )
-    local all_names, how_to_compute, i, property_name, possibilities, max, j;
+    local all_names, how_to_compute, i, property_name, possibilities, max, j,
+        computable, valid, val, k;
     
     all_names := NamesOfComponents( graph );
     
@@ -160,13 +161,45 @@ InstallMethod( ComputeProperty,
             
             for j in [ 1 .. Length( possibilities ) ] do
                 
-                if ForAll( possibilities[ j ].dependencies, k -> how_to_compute.( k ) > -1 ) and ForAll( possibilities[ j ].requirements, function( tester )
-                                                                                                                                            local val;
-                                                                                                                                              val := VALUE_GLOBAL( tester );
-                                                                                                                                              return Tester( val )( object )
-                                                                                                                                                and IsBool( val( object ) )
-                                                                                                                                                and val( object );
-                                                                                                                                            end ) then
+                # Check whether the attribute is computable in principle
+
+                computable := true;
+
+                for k in possibilities[ j ].dependencies do
+                
+                    if how_to_compute.( k ) = -1 then
+                
+                        computable := false;
+                        break;
+
+                    fi;
+                
+                od;
+
+                if not computable then
+                
+                    continue;
+
+                fi;
+
+                # Check whether the requirements of these possibilities are met
+
+                valid := true;
+
+                for k in possibilities[ j ].requirements do
+                
+                    val := VALUE_GLOBAL( k );
+
+                    if not ( Tester( val )( object ) and IsBool( val( object ) ) and val( object ) ) then
+
+                        valid := false;
+                        break;
+
+                    fi;
+
+                od;
+
+                if valid then
                     
                     how_to_compute.( all_names[ i ] ) := j;
                     break;
