@@ -187,14 +187,33 @@ InstallMethod( ComputeProperty,
                 valid := true;
 
                 for k in possibilities[ j ].requirements do
-                
+
                     val := VALUE_GLOBAL( k );
 
-                    if not ( Tester( val )( object ) and IsBool( val( object ) ) and val( object ) ) then
+                    if Tester( val )( object ) then # requirement can be tested directly
+                        
+                        if not ( IsBool( val( object ) ) and val( object ) ) then
+                        
+                            valid := false;
+                            break;
+                    
+                        fi;
 
-                        valid := false;
-                        break;
+                    else # requirement may be computed with the scheduler
 
+                        if IsBound( how_to_compute.( k ) ) and how_to_compute.( k ) > 0 then
+                        
+                            __ATTRIBUTESCHEDULER_evaluate_recursive( graph, k, object, how_to_compute );
+                            
+                            if not ( IsBool( val( object ) ) and val( object ) ) then
+                            
+                                valid := false;
+                                break;
+
+                            fi;
+                        
+                        fi;
+                        
                     fi;
 
                 od;
