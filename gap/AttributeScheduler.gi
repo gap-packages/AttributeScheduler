@@ -49,22 +49,8 @@ InstallMethod( AddPropertyIncidence,
                [ IsAttributeSchedulerGraph, IsString, IsList ],
                
   function( graph, property_to_compute, property_depends_on )
-    local name;
-    
-    # Check whether the elements of property_depends_on are already part
-    # of the graph
-    for name in property_depends_on do
-        if not IsBound( graph!.(name) ) then
-            graph!.(name) := [];
-        fi;
-    od;
-    
-    # Check whether property_to_compute is already part of the graph
-    if not IsBound( graph!.(property_to_compute) ) then
-        graph!.(property_to_compute) := [];
-    fi;
-    
-    Add( graph!.(property_to_compute), rec( dependencies := property_depends_on, requirements := [ ] ) );
+
+    AddPropertyIncidence( graph, property_to_compute, property_depends_on, [] );
     
 end );
 
@@ -126,7 +112,8 @@ end );
 InstallMethod( ComputeProperty,
                [ IsAttributeSchedulerGraph, IsFunction, IsObject ],
   function( graph, property, object )
-    local all_names, how_to_compute, i, property_name, possibilities, max, j;
+    local all_names, how_to_compute, i, property_name, possibilities, max, j,
+        computable, valid, val, k;
     
     all_names := NamesOfComponents( graph );
     
@@ -160,13 +147,69 @@ InstallMethod( ComputeProperty,
             
             for j in [ 1 .. Length( possibilities ) ] do
                 
-                if ForAll( possibilities[ j ].dependencies, k -> how_to_compute.( k ) > -1 ) and ForAll( possibilities[ j ].requirements, function( tester )
-                                                                                                                                            local val;
-                                                                                                                                              val := VALUE_GLOBAL( tester );
-                                                                                                                                              return Tester( val )( object )
-                                                                                                                                                and IsBool( val( object ) )
-                                                                                                                                                and val( object );
-                                                                                                                                            end ) then
+                # Check whether the attribute is computable in principle
+
+                computable := true;
+
+                for k in possibilities[ j ].dependencies do
+                
+                    if how_to_compute.( k ) = -1 then
+                
+                        computable := false;
+                        break;
+
+                    fi;
+                
+                od;
+
+                if not computable then
+                
+                    continue;
+
+                fi;
+
+                # Check whether the requirements of these possibilities are met
+
+                valid := true;
+
+                for k in possibilities[ j ].requirements do
+
+                    val := VALUE_GLOBAL( k );
+
+                    if Tester( val )( object ) then # requirement can be tested directly
+                        
+                        if not ( IsBool( val( object ) ) and val( object ) ) then
+                        
+                            valid := false;
+                            break;
+                    
+                        fi;
+
+                    else # requirement may be computed with the scheduler
+
+                        if IsBound( how_to_compute.( k ) ) and how_to_compute.( k ) > 0 then
+                        
+                            __ATTRIBUTESCHEDULER_evaluate_recursive( graph, k, object, how_to_compute );
+                            
+                            if not ( IsBool( val( object ) ) and val( object ) ) then
+                            
+                                valid := false;
+                                break;
+
+                            fi;
+                        
+                        else
+                            
+                            valid := false;
+                            break;
+
+                        fi;
+                        
+                    fi;
+
+                od;
+
+                if valid then
                     
                     how_to_compute.( all_names[ i ] ) := j;
                     break;
@@ -194,12 +237,18 @@ InstallMethod( ComputeProperty,
 end );
 
 InstallMethod( AddAttribute, 
-    [IsAttributeSchedulerGraph, IsObject, IsObject, IsString],
-    function(graph, attr, filter, descr)
-        InstallMethod( attr, descr, [filter],
-            function(obj)
-                return ComputeProperty(graph, attr, obj);
-            end);
+    [ IsAttributeSchedulerGraph, IsObject, IsObject, IsString ],
+
+    function( graph, attr, filter, descr )
+
+        InstallMethod( attr, descr, [ filter ],
+
+            function( obj )
+
+                return ComputeProperty( graph, attr, obj );
+
+            end );
+
     end
 );
 

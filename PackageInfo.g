@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "AttributeScheduler",
 Subtitle := "Graph and methods to compute attribute with dependencies",
-Version := "2018.11.29",
-Date := "29/11/2018", # dd/mm/yyyy format
+Version := "2019.12.05",
+Date := "05/12/2019", # dd/mm/yyyy format
 
 Persons := [
   rec(
