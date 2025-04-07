@@ -244,6 +244,7 @@ InstallMethod( AddAttribute,
     [ IsAttributeSchedulerGraph, IsObject, IsObject, IsString ],
 
     function( graph, attr, filter, descr )
+
         InstallMethod( attr, descr, [ filter ],
 
             function( obj )
