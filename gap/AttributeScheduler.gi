@@ -19,7 +19,7 @@ BindGlobal( "TheTypeAttributeSchedulerGraph",
                 IsAttributeSchedulerGraphRep ) );
 
 ##
-InstallMethod( AttributeSchedulerGraph,
+InstallOtherMethod( AttributeSchedulerGraph,
                [ ],
                
   function( )
@@ -36,7 +36,11 @@ InstallMethod( AttributeSchedulerGraph,
     graph := rec( );
     
     for i in methods do
-        graph.(i) := [ ];
+	#if IsBound(i) and IsAttribute(i) then
+        	graph.(i) := [ ];
+	#else
+	#	Error(Concatenation("The entries in the list ", String(methods), " must be attributes"));
+	#fi;
     od;
     
     Objectify( TheTypeAttributeSchedulerGraph, graph );
@@ -45,7 +49,7 @@ InstallMethod( AttributeSchedulerGraph,
     
 end );
 
-InstallMethod( AddPropertyIncidence,
+InstallOtherMethod( AddPropertyIncidence,
                [ IsAttributeSchedulerGraph, IsString, IsList ],
                
   function( graph, property_to_compute, property_depends_on )
@@ -77,7 +81,7 @@ InstallMethod( AddPropertyIncidence,
     
 end );
 
-InstallMethod( AddPropertyIncidence,
+InstallOtherMethod( AddPropertyIncidence,
                     [ IsAttributeSchedulerGraph, IsString, IsString ],
                     
   function( graph, property_to_compute, property_depends_on )
