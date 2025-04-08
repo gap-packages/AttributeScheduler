@@ -41,7 +41,7 @@ Persons := [
 PackageWWWHome := "http://TODO/",
 
 ArchiveURL     := Concatenation( ~.PackageWWWHome, "AttributeScheduler-", ~.Version ),
-README_URL     := Concatenation( ~.PackageWWWHome, "README" ),
+README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 
 ArchiveFormats := ".tar.gz",
