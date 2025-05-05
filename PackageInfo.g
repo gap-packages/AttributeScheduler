@@ -10,39 +10,35 @@ SetPackageInfo( rec(
 
 PackageName := "AttributeScheduler",
 Subtitle := "Graph and methods to compute attribute with dependencies",
-Version := "2019.12.05",
-Date := "05/12/2019", # dd/mm/yyyy format
+Version := "0.1",
+Date := "15/04/2025", # dd/mm/yyyy format
+License := "GPL-3.0-or-later",
 
 Persons := [
   rec(
     IsAuthor := true,
-    IsMaintainer := true,
+    IsMaintainer := false,
     FirstNames := "Sebastian",
     LastName := "Gutsche",
-    WWWHome := "http://wwwb.math.rwth-aachen.de/~gutsche/",
-    Email := "gutsche@mathematik.uni-siegen.de",
-    PostalAddress := "TODO",
-    Place := "Siegen",
-    Institution := "University of Siegen",
+    Email := " sebastian.gutsche@gmail.com"
   ),
   rec(
     IsAuthor := true,
-    IsMaintainer := true,
+    IsMaintainer := false,
     FirstNames := "Markus",
     LastName := "Baumeister",
-    WWWHome := "https://www.mathb.rwth-aachen.de",
-    Email := "baumeister@momo.math.rwth-aachen.de",
-    PostalAddress := "TODO",
-    Place := "Aachen",
-    Institution := "RWTH Aachen University",
+    Email := "baumeister@momo.math.rwth-aachen.de"
   ),
 ],
 
-PackageWWWHome := "http://TODO/",
+PackageWWWHome := "https://github.com/gap-packages/AttributeScheduler",
 
-ArchiveURL     := Concatenation( ~.PackageWWWHome, "AttributeScheduler-", ~.Version ),
-README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
-PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
+SourceRepository := rec( Type := "git", URL := "https://github.com/gap-packages/AttributeScheduler" ),
+ArchiveURL     := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
+                                 "/", ~.PackageName, "-", ~.Version ),
+README_URL     := Concatenation( ~.PackageWWWHome, "/README.md" ),
+PackageInfoURL := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 
 ArchiveFormats := ".tar.gz",
 
@@ -69,14 +65,12 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.6",
-  NeededOtherPackages := [ [ "GAPDoc", ">= 1.5" ] ],
-  SuggestedOtherPackages := [ ],
+  NeededOtherPackages := [ ],
+  SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.5" ] ],
   ExternalConditions := [ ],
 ),
 
-AvailabilityTest := function()
-        return true;
-    end,
+AvailabilityTest := ReturnTrue,
 
 TestFile := "tst/testall.g",
 

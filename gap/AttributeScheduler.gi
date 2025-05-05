@@ -2,7 +2,7 @@
 ##
 ##                                                    AttributeSchedulerGraph
 ##
-##  Copyright 2017,                            Markus Baumeister, RWTH Aachen
+##  Copyright 2025,                            Markus Baumeister, RWTH Aachen
 ##                                       Sebastian Gutsche, Siegen University
 ##
 #############################################################################
