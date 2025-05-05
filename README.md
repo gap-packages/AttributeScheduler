@@ -11,6 +11,11 @@ To use this package, go into your local installation directory for GAP (often lo
     cd pkg/
     git clone https://github.com/gap-packages/AttributeScheduler
 
+Another option for installation is the use of `PackageManager`:
+
+    LoadPackage("PackageManager");
+    InstallPackage("https://github.com/gap-packages/AttributeScheduler.git");
+    
 For using the Package, call
 
     LoadPackage("AttributeScheduler");
